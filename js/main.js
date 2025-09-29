@@ -27,8 +27,11 @@ let listadoProductos = document.getElementById("listadoProductos");
 // se intenta conseguir el carrito del localStorage. de no haber dicho carrito, se crea una lista vacia
 let carrito = JSON.parse(localStorage.getItem("carritoFrutas")) || []; 
 
-//parte del html que muestra los elementos del carrito
+// parte del html que muestra los elementos del carrito
 let contenedorCarrito = document.getElementById("carrito");
+
+// parte del html que muestra la cantidad de elementos en el carrito
+let cantidadCarrito = document.getElementById("cantidad");
 
 function imprimirDatosAlumno(alumno){
     console.log(`DNI: ${alumno.dni}, Nombre: ${alumno.nombre}, Apellido: ${alumno.apellido}`);
@@ -88,8 +91,11 @@ function agregarCarrito(id){
     }
 }
 
+// funcion que deberia llamarse cada vez que hay un cambio en el carrito para mostrarlo actualizado
 function mostrarCarrito(carrito){
+    // si hay elementos en el carrito...
     if (carrito.length > 0){
+        //se genera una lista desordenada con cada producto que esta en el carrito, su precio y un boton para eliminarlo
         htmlCarrito = "<ul>";
         carrito.forEach(producto => {
             htmlCarrito += `
@@ -100,6 +106,7 @@ function mostrarCarrito(carrito){
             `;
         });
     
+        // se cierra el ul y ademas se agrega la posibilidad de vaciar el carrito y se muestra el precio total a pagar
         htmlCarrito += `
         </ul>
         <div>
@@ -107,18 +114,37 @@ function mostrarCarrito(carrito){
             <p id="totalCarrito"></p>
         </div>
         `;
-    }else{
+    }
+    // si no hay elementos en el carrito...
+    else{
         htmlCarrito = "<p>No hay elementos en el carrito</p>"
     }
 
     contenedorCarrito.innerHTML = htmlCarrito;
+
+    actualizarCantidadCarrito();
 }
 
+
+// funcion que elimina el elemento deseado del carrito
 function eliminarCarrito(id){
     // se filtra el carrito para que tenga los productos cuyo id no sean el que se quiere eliminar
     carrito = carrito.filter(producto => producto.id != id);
     mostrarCarrito(carrito);
     localStorage.setItem("carritoFrutas", JSON.stringify(carrito));
+}
+
+// funcion que actualiza la cantidad de elementos en el carrito para mostrarlo
+function actualizarCantidadCarrito(){
+    let cantidad = carrito.length;
+
+    // condicional para que no diga "1 Productos"
+    if(cantidad != 1){
+        cantidadCarrito.innerHTML = cantidad + " Productos";
+    }
+    else{
+        cantidadCarrito.innerHTML = cantidad + " Producto";
+    }
 }
 
 // funcion de inicializacion
