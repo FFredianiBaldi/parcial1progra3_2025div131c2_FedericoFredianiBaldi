@@ -39,6 +39,7 @@ main {
     display: flex;
     flex-direction: column;
     align-items: center;
+    flex: 1;
 }
 
 #listadoProductos {
@@ -53,4 +54,23 @@ main {
 .card-producto img {
     height: 110px;
     width: 125px;
+}
+
+#carrito {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    width: 100%;
+    background-color: rgb(247, 248, 250);
+}
+
+#carrito ul {
+    width: 50%;
+}
+
+.bloque-item{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }

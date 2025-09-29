@@ -24,6 +24,12 @@ let alumno = {
 // parte del documento donde se muestran cada uno de los productos
 let listadoProductos = document.getElementById("listadoProductos");
 
+// se intenta conseguir el carrito del localStorage. de no haber dicho carrito, se crea una lista vacia
+let carrito = JSON.parse(localStorage.getItem("carritoFrutas")) || []; 
+
+//parte del html que muestra los elementos del carrito
+let contenedorCarrito = document.getElementById("carrito");
+
 function imprimirDatosAlumno(alumno){
     console.log(`DNI: ${alumno.dni}, Nombre: ${alumno.nombre}, Apellido: ${alumno.apellido}`);
 
@@ -43,7 +49,7 @@ function mostrarProductos(array){
             <img src="${producto.ruta_img}" alt="">
             <h3>${producto.nombre}</h3>
             <p>$${producto.precio}</p>
-            <button>Agregar al carrito</button>
+            <button onclick="agregarCarrito(${producto.id})">Agregar al carrito</button>
         </div>
         `;
     });
@@ -67,11 +73,60 @@ function filtrarProductos(){
     });
 }
 
+
+function agregarCarrito(id){
+    // se verifica que el producto no este ya en el carrito
+    if(!carrito.some(p => p.id === id)){
+        // se busca al producto por id en la lista de productos
+        let producto = productos.find(producto => producto.id === id);
+
+        // se agrega dicho producto a la lista carrito y se modifica el carrito de localStorage
+        carrito.push(producto);
+        localStorage.setItem("carritoFrutas", JSON.stringify(carrito));
+
+        mostrarCarrito(carrito);
+    }
+}
+
+function mostrarCarrito(carrito){
+    if (carrito.length > 0){
+        htmlCarrito = "<ul>";
+        carrito.forEach(producto => {
+            htmlCarrito += `
+            <li class="bloque-item">
+                <p class="nombre-item">${producto.nombre} - $${producto.precio}</p>
+                <button class="boton-eliminar" onclick="eliminarCarrito(${producto.id})">Eliminar</button>
+            </li>
+            `;
+        });
+    
+        htmlCarrito += `
+        </ul>
+        <div>
+            <button class="vaciar-carrito">Vaciar carrito</button>
+            <p id="totalCarrito"></p>
+        </div>
+        `;
+    }else{
+        htmlCarrito = "<p>No hay elementos en el carrito</p>"
+    }
+
+    contenedorCarrito.innerHTML = htmlCarrito;
+}
+
+function eliminarCarrito(id){
+    // se filtra el carrito para que tenga los productos cuyo id no sean el que se quiere eliminar
+    carrito = carrito.filter(producto => producto.id != id);
+    mostrarCarrito(carrito);
+    localStorage.setItem("carritoFrutas", JSON.stringify(carrito));
+}
+
 // funcion de inicializacion
 function init(){
     imprimirDatosAlumno(alumno);
     mostrarProductos(productos);
     filtrarProductos();
+    mostrarCarrito(carrito);
 }
 
 init();
