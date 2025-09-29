@@ -93,10 +93,13 @@ function agregarCarrito(id){
 
 // funcion que deberia llamarse cada vez que hay un cambio en el carrito para mostrarlo actualizado
 function mostrarCarrito(carrito){
+
+    let htmlCarrito = "<h2>Carrito</h2>";
+
     // si hay elementos en el carrito...
     if (carrito.length > 0){
         //se genera una lista desordenada con cada producto que esta en el carrito, su precio y un boton para eliminarlo
-        htmlCarrito = "<ul>";
+        htmlCarrito += "<ul>";
         carrito.forEach(producto => {
             htmlCarrito += `
             <li class="bloque-item">
@@ -117,7 +120,7 @@ function mostrarCarrito(carrito){
     }
     // si no hay elementos en el carrito...
     else{
-        htmlCarrito = "<p>No hay elementos en el carrito</p>"
+        htmlCarrito += "<p>No hay elementos en el carrito</p>"
     }
 
     contenedorCarrito.innerHTML = htmlCarrito;
@@ -193,7 +196,9 @@ function ordenarProductos(){
     });
 }
 
+// funcion que vacia el carrito
 function vaciarCarrito(){
+    // se vacia la lista, se suben los cambios a localStorage y se vuelve a mostrar el carrito actualizado
     carrito = [];
     localStorage.setItem("carritoFrutas", JSON.stringify(carrito));
     mostrarCarrito(carrito);
