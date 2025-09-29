@@ -110,7 +110,7 @@ function mostrarCarrito(carrito){
         htmlCarrito += `
         </ul>
         <div class="footer-carrito">
-            <button class="vaciar-carrito">Vaciar carrito</button>
+            <button class="vaciar-carrito" onclick="vaciarCarrito()">Vaciar carrito</button>
             <p id="totalCarrito"></p>
         </div>
         `;
@@ -191,6 +191,12 @@ function ordenarProductos(){
         // se vuelven a mostrar los productos ahora acomodados al gusto del usuario
         mostrarProductos(productos);
     });
+}
+
+function vaciarCarrito(){
+    carrito = [];
+    localStorage.setItem("carritoFrutas", JSON.stringify(carrito));
+    mostrarCarrito(carrito);
 }
 
 // funcion de inicializacion
