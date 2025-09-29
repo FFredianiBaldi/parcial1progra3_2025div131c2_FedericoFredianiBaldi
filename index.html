@@ -3,31 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Fruteria</title>
     <link rel="stylesheet" href="css/style.css">
     <script defer src="js/main.js"></script>
 </head>
 <body>
     <header>
+        <div class="logo">
+            <h1>Fruteria</h1>
+        </div>
+        
         <nav>
-            <div class="logo">
-
-            </div>
-
-            <div id="buscador">
-
-            </div>
-
-            <div id="carrito-cantidad">
-
-            </div>
+            <p id="navNombre"></p>
+            <input type="text" placeholder="Buscar..." id="barraBusqueda">
         </nav>
+
+        <div id="carritoCantidad">
+            <p>Carrito: <span id="cantidad"></span> Productos</p>
+        </div>
     </header>
 
     <main>
-        <h1>Nuestras frutas</h1>
+        <h2>Nuestras frutas</h2>
         <section id="listadoProductos">
-
+            <!-- <div class="card-producto">
+                <img src="" alt="">
+                <h3></h3>
+                <p>$</p>
+                <button>Agregar al carrito</button>
+            </div> -->
         </section>
 
         <section id="carrito-cantidad">
