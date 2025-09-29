@@ -109,7 +109,7 @@ function mostrarCarrito(carrito){
         // se cierra el ul y ademas se agrega la posibilidad de vaciar el carrito y se muestra el precio total a pagar
         htmlCarrito += `
         </ul>
-        <div>
+        <div class="footer-carrito">
             <button class="vaciar-carrito">Vaciar carrito</button>
             <p id="totalCarrito"></p>
         </div>
@@ -123,6 +123,7 @@ function mostrarCarrito(carrito){
     contenedorCarrito.innerHTML = htmlCarrito;
 
     actualizarCantidadCarrito();
+    actualizarTotalCarrito();
 }
 
 
@@ -147,12 +148,58 @@ function actualizarCantidadCarrito(){
     }
 }
 
+function actualizarTotalCarrito(){
+    let total = 0;
+    carrito.forEach(producto => total += producto.precio);
+    let totalCarrito = document.getElementById("totalCarrito");
+    if(totalCarrito){
+        totalCarrito.innerHTML = `Total: $${total}`;
+    }
+}
+
+// funcion que revisa si el usuario quiere acomodar los productos alfabeticamente o de menor a mayor precio
+function ordenarProductos(){
+    // se escucha si el usuario cambio el selector de ordenarProductos
+    let selector = document.getElementById("ordenarProductos");
+    selector.addEventListener("change", function(event){
+        // si se eligio alfabeticamente...
+        if(event.target.value === "alfabeticamente"){
+            // bubble sort para acomodarlo alfabeticamente
+            for(let i = 0; i < productos.length - 1; i++) {
+                for (let j = 0; j < productos.length - 1 - i; j++){
+                    if (productos[j].nombre.toLowerCase() > productos[j+1].nombre.toLowerCase()){
+                        let temp = productos[j];
+                        productos[j] = productos[j + 1];
+                        productos[j + 1] = temp;
+                    }
+                }
+            }
+        }
+        // si en cambio se eligio por precio...
+        else if(event.target.value === "precio"){
+            //bubble sort para acomodarlo por precio 
+            for(let i = 0; i < productos.length - 1; i++) {
+                for (let j = 0; j < productos.length - 1 - i; j++){
+                    if (productos[j].precio > productos[j+1].precio){
+                        let temp = productos[j];
+                        productos[j] = productos[j + 1];
+                        productos[j + 1] = temp;
+                    }
+                }
+            }
+        }
+        // se vuelven a mostrar los productos ahora acomodados al gusto del usuario
+        mostrarProductos(productos);
+    });
+}
+
 // funcion de inicializacion
 function init(){
     imprimirDatosAlumno(alumno);
     mostrarProductos(productos);
     filtrarProductos();
     mostrarCarrito(carrito);
+    ordenarProductos();
 }
 
 init();
